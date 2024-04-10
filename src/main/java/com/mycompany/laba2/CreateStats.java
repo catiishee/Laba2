@@ -25,9 +25,9 @@ import java.util.logging.Logger;
  */
 public class CreateStats {
 
-    public static void createStats(GUI mainFrame, String filePath) {
+    public static void createStats(GUI mainFrame, String filePath, int sheetIndex) {
         try {
-            ArrayList<String[]> data = ExcelDataReader.readDataFromExcel(filePath, 0);
+            ArrayList<String[]> data = ExcelDataReader.readDataFromExcel(filePath, sheetIndex);
 //            String[] header = {"","X", "Y", "Z"};
 //            mainFrame.addRowToTable(header);
 

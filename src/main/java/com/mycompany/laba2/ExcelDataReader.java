@@ -11,7 +11,6 @@ import javax.swing.JOptionPane;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -33,7 +32,7 @@ public class ExcelDataReader {
             boolean firstRowSkipped = false;
 
             for (Row row : sheet) {
-                if (!firstRowSkipped) { // Пропускаем первую строку
+                if (!firstRowSkipped) {
                     firstRowSkipped = true;
                     continue;
                 }
@@ -51,15 +50,6 @@ public class ExcelDataReader {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Ошибка при импорте данных из файла: " + e.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
-//        } finally {
-//            if (workbook != null) {
-//                try {
-//                    workbook.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
 
         return records;
     }

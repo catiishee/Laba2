@@ -11,9 +11,12 @@ import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
@@ -54,16 +57,43 @@ public class GUI extends JFrame {
 
         add(panel);
 
+//        importButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                JFileChooser fileChooser = new JFileChooser();
+//                FileNameExtensionFilter filter = new FileNameExtensionFilter("Файлы XLSX", "xlsx");
+//                fileChooser.setFileFilter(filter);
+//                int returnValue = fileChooser.showOpenDialog(null);
+//                if (returnValue == JFileChooser.APPROVE_OPTION) {
+//                    File selectedFile = fileChooser.getSelectedFile();
+//                    CreateStats.createStats(GUI.this,selectedFile.getAbsolutePath());
+//                }
+//            }
+//        });
+        
         importButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("Файлы XLSX", "xlsx");
-                fileChooser.setFileFilter(filter);
-                int returnValue = fileChooser.showOpenDialog(null);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = fileChooser.getSelectedFile();
-                    CreateStats.createStats(GUI.this,selectedFile.getAbsolutePath());
+                JTextField sheetIndexField = new JTextField(5);
+                JPanel panel = new JPanel();
+                panel.add(new JLabel("Индекс листа:"));
+                panel.add(sheetIndexField);
+
+                int result = JOptionPane.showConfirmDialog(null, panel, "Введите индекс листа", JOptionPane.OK_CANCEL_OPTION);
+                if (result == JOptionPane.OK_OPTION) {
+                    try {
+                        int sheetIndex = Integer.parseInt(sheetIndexField.getText());
+                        JFileChooser fileChooser = new JFileChooser();
+                        FileNameExtensionFilter filter = new FileNameExtensionFilter("Файлы XLSX", "xlsx");
+                        fileChooser.setFileFilter(filter);
+                        int returnValue = fileChooser.showOpenDialog(null);
+                        if (returnValue == JFileChooser.APPROVE_OPTION) {
+                            File selectedFile = fileChooser.getSelectedFile();
+                            CreateStats.createStats(GUI.this, selectedFile.getAbsolutePath(), sheetIndex);
+                        }
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Некорректный индекс листа. Пожалуйста, введите целое число.", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         });
