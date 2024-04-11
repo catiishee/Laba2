@@ -21,15 +21,13 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author user
+ * @author kateshcherbinina
  */
 public class CreateStats {
 
     public static void createStats(GUI mainFrame, String filePath, int sheetIndex) {
         try {
             ArrayList<String[]> data = ExcelDataReader.readDataFromExcel(filePath, sheetIndex);
-//            String[] header = {"","X", "Y", "Z"};
-//            mainFrame.addRowToTable(header);
 
             double[] result1 = GeometricMeanCalculator.calculateGeometricMean(data);
             mainFrame.addRowToTable("Среднее геометрическое", result1);
@@ -44,12 +42,12 @@ public class CreateStats {
             mainFrame.addRowToTable("Размах", result4);
 
             double[][] result5 = CovarianceCalculator.calculateCovarianceCoefficients(data);
-            String[] header1 = {"Коэффициенты ковариации","X", "Y", "Z"};
+            String[] header1 = {"Коэффициенты ковариации", "X", "Y", "Z"};
             mainFrame.addRowToTable(header1);
-            mainFrame.addRowToTable("X",result5[0]);
-            mainFrame.addRowToTable("Y",result5[1]);
-            mainFrame.addRowToTable("Z",result5[2]);
-            
+            mainFrame.addRowToTable("X", result5[0]);
+            mainFrame.addRowToTable("Y", result5[1]);
+            mainFrame.addRowToTable("Z", result5[2]);
+
             int[] result6 = CountCalculator.calculateSampleSize(data);
             mainFrame.addRowToTable("Количество элементов", new double[]{result6[0], result6[1], result6[2]});
 

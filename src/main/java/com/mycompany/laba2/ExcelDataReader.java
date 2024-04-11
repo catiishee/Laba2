@@ -17,7 +17,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 /**
  *
- * @author user
+ * @author kateshcherbinina
  */
 public class ExcelDataReader {
 

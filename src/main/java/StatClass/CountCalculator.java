@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * @author user
  */
 public class CountCalculator {
+
     public static int[] calculateSampleSize(ArrayList<String[]> records) {
         int[] sampleSizes = new int[3];
         for (int i = 0; i < 3; i++) {

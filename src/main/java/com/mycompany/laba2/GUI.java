@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author user
+ * @author kateshcherbinina
  */
 public class GUI extends JFrame {
 
@@ -57,42 +57,18 @@ public class GUI extends JFrame {
 
         add(panel);
 
-//        importButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                JFileChooser fileChooser = new JFileChooser();
-//                FileNameExtensionFilter filter = new FileNameExtensionFilter("Файлы XLSX", "xlsx");
-//                fileChooser.setFileFilter(filter);
-//                int returnValue = fileChooser.showOpenDialog(null);
-//                if (returnValue == JFileChooser.APPROVE_OPTION) {
-//                    File selectedFile = fileChooser.getSelectedFile();
-//                    CreateStats.createStats(GUI.this,selectedFile.getAbsolutePath());
-//                }
-//            }
-//        });
-        
         importButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JTextField sheetIndexField = new JTextField(5);
-                JPanel panel = new JPanel();
-                panel.add(new JLabel("Индекс листа:"));
-                panel.add(sheetIndexField);
-
-                int result = JOptionPane.showConfirmDialog(null, panel, "Введите индекс листа", JOptionPane.OK_CANCEL_OPTION);
-                if (result == JOptionPane.OK_OPTION) {
-                    try {
-                        int sheetIndex = Integer.parseInt(sheetIndexField.getText());
-                        JFileChooser fileChooser = new JFileChooser();
-                        FileNameExtensionFilter filter = new FileNameExtensionFilter("Файлы XLSX", "xlsx");
-                        fileChooser.setFileFilter(filter);
-                        int returnValue = fileChooser.showOpenDialog(null);
-                        if (returnValue == JFileChooser.APPROVE_OPTION) {
-                            File selectedFile = fileChooser.getSelectedFile();
-                            CreateStats.createStats(GUI.this, selectedFile.getAbsolutePath(), sheetIndex);
-                        }
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(null, "Некорректный индекс листа. Пожалуйста, введите целое число.", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                JFileChooser fileChooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Файлы XLSX", "xlsx");
+                fileChooser.setFileFilter(filter);
+                int returnValue = fileChooser.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    int sheetIndex = getSheetIndexFromUserInput(); // Вызываем метод выбора индекса после выбора файла
+                    if (sheetIndex != -1) {
+                        CreateStats.createStats(GUI.this, selectedFile.getAbsolutePath(), sheetIndex);
                     }
                 }
             }
@@ -126,16 +102,39 @@ public class GUI extends JFrame {
     }
 
     public void addRowToTable(String[] rowName) {
-        tableModel.addRow(new Object[]{rowName[0], rowName[1], rowName[2],rowName[3]});
+        tableModel.addRow(new Object[]{rowName[0], rowName[1], rowName[2], rowName[3]});
     }
 
     public void addRowToTable(String rowName, double[][] values) {
         tableModel.addRow(new Object[]{rowName, values[0][0], values[0][1], values[0][2]});
-        for(int i = 1; i < values.length; i++){
+        for (int i = 1; i < values.length; i++) {
             tableModel.addRow(new Object[]{"", values[i][0], values[i][1], values[i][2]});
         }
     }
-    
+
+    public int getSheetIndexFromUserInput() {
+        JTextField sheetIndexField = new JTextField(5);
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Индекс листа:"));
+        panel.add(sheetIndexField);
+
+        int result = JOptionPane.showConfirmDialog(null, panel, "Введите номер варианта", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            String input = sheetIndexField.getText();
+            try {
+                int value = Integer.parseInt(input);
+                if (value >= 0 && value <= 9) {
+                    return value;
+                } else {
+                    throw new NumberFormatException();
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Некорректный ввод. Пожалуйста, введите число от 0 до 9.", "Ошибка", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return -1;
+    }
+
     public static String[][] convertToStringArray(DefaultTableModel model) {
         int rowCount = model.getRowCount();
         int columnCount = model.getColumnCount();

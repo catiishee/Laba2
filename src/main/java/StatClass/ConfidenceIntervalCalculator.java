@@ -13,6 +13,7 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
  * @author user
  */
 public class ConfidenceIntervalCalculator {
+
     private static final double DEFAULT_CONFIDENCE_LEVEL = 0.95;
 
     public static double[][] calculateConfidenceInterval(ArrayList<String[]> records) {

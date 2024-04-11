@@ -12,7 +12,8 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
  * @author user
  */
 public class StandardDeviationCalculator {
-     public static double[] calculateStandardDeviation(ArrayList<String[]> records) {
+
+    public static double[] calculateStandardDeviation(ArrayList<String[]> records) {
         double[] standardDeviations = new double[3];
         for (int i = 0; i < 3; i++) {
             DescriptiveStatistics stats = new DescriptiveStatistics();

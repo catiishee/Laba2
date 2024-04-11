@@ -8,11 +8,11 @@ import javax.swing.SwingUtilities;
 
 /**
  *
- * @author user
+ * @author kateshcherbinina
  */
 public class Laba2 {
-    
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         //CreateStats.createStats();
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -22,5 +22,5 @@ public class Laba2 {
             }
         });
     }
-    
+
 }

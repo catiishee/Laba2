@@ -12,6 +12,7 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
  * @author user
  */
 public class VarianceCalculator {
+
     public static double[] calculateVariance(ArrayList<String[]> records) {
         double[] variances = new double[3];
         for (int i = 0; i < 3; i++) {

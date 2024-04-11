@@ -16,9 +16,10 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 /**
  *
- * @author user
+ * @author kateshcherbinina
  */
 public class ExcelDataWriter {
+
     public void writeDataToExcel(String filePath, String[][] data) {
         try {
             Workbook workbook = WorkbookFactory.create(true);
