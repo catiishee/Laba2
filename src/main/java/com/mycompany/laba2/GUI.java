@@ -66,7 +66,7 @@ public class GUI extends JFrame {
                 int returnValue = fileChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
-                    int sheetIndex = getSheetIndexFromUserInput(); // Вызываем метод выбора индекса после выбора файла
+                    int sheetIndex = getSheetIndexFromUserInput(); 
                     if (sheetIndex != -1) {
                         CreateStats.createStats(GUI.this, selectedFile.getAbsolutePath(), sheetIndex);
                     }
