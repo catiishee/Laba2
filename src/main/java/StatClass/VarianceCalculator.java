@@ -5,22 +5,41 @@
 package StatClass;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 /**
  *
  * @author user
  */
+//public class VarianceCalculator {
+//
+//    public static double[] calculateVariance(ArrayList<String[]> records) {
+//        double[] variances = new double[3];
+//        for (int i = 0; i < 3; i++) {
+//            DescriptiveStatistics stats = new DescriptiveStatistics();
+//            for (String[] record : records) {
+//                stats.addValue(Double.parseDouble(record[i].replace(",", ".")));
+//            }
+//            variances[i] = stats.getVariance();
+//        }
+//        return variances;
+//    }
+//}
 public class VarianceCalculator {
 
-    public static double[] calculateVariance(ArrayList<String[]> records) {
-        double[] variances = new double[3];
-        for (int i = 0; i < 3; i++) {
+    public static double[] calculateVariance(Map<String, List<Double>> dataMap) {
+        int columnCount = dataMap.size();
+        double[] variances = new double[columnCount];
+        int columnIndex = 0;
+
+        for (List<Double> columnData : dataMap.values()) {
             DescriptiveStatistics stats = new DescriptiveStatistics();
-            for (String[] record : records) {
-                stats.addValue(Double.parseDouble(record[i].replace(",", ".")));
+            for (double value : columnData) {
+                stats.addValue(value);
             }
-            variances[i] = stats.getVariance();
+            variances[columnIndex++] = stats.getVariance();
         }
         return variances;
     }
