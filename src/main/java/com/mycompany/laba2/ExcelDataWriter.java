@@ -33,7 +33,7 @@ public class ExcelDataWriter {
                 }
             }
 
-            FileOutputStream outputStream = new FileOutputStream(new File(filePath));
+            FileOutputStream outputStream = new FileOutputStream(new File(filePath)); // поток вывода
             workbook.write(outputStream);
             workbook.close();
             outputStream.close();

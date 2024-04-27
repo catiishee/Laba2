@@ -1,11 +1,11 @@
 StatClass\CovarianceCalculator.class
 StatClass\CoefficientOfVariationCalculator.class
 StatClass\ConfidenceIntervalCalculator.class
+com\mycompany\laba2\StatsCreation.class
 com\mycompany\laba2\GUI$1.class
 com\mycompany\laba2\Laba2$1.class
 StatClass\StandardDeviationCalculator.class
 com\mycompany\laba2\GUI$3.class
-com\mycompany\laba2\CreateStats.class
 com\mycompany\laba2\GUI.class
 StatClass\CountCalculator.class
 StatClass\VarianceCalculator.class

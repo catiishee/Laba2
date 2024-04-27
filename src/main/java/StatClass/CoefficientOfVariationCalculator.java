@@ -4,7 +4,6 @@
  */
 package StatClass;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
@@ -13,21 +12,6 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
  *
  * @author user
  */
-//public class CoefficientOfVariationCalculator {
-//
-//    public static double[] calculateCoefficientOfVariation(ArrayList<String[]> records) {
-//        double[] coefficientsOfVariation = new double[3];
-//        for (int i = 0; i < 3; i++) {
-//            DescriptiveStatistics stats = new DescriptiveStatistics();
-//            for (String[] record : records) {
-//                stats.addValue(Double.parseDouble(record[i].replace(",", ".")));
-//            }
-//            coefficientsOfVariation[i] = stats.getStandardDeviation() / stats.getMean();
-//        }
-//        return coefficientsOfVariation;
-//    }
-//
-//}
 public class CoefficientOfVariationCalculator {
 
     public static double[] calculateCoefficientOfVariation(Map<String, List<Double>> dataMap) {
@@ -42,9 +26,8 @@ public class CoefficientOfVariationCalculator {
             }
             double mean = stats.getMean();
             double standardDeviation = stats.getStandardDeviation();
-            coefficientsOfVariation[columnIndex++] = (mean != 0) ? standardDeviation / mean : 0.0;
+            coefficientsOfVariation[columnIndex++] = (mean != 0) ? (standardDeviation / mean) * 100 : 0.0;
         }
         return coefficientsOfVariation;
     }
 }
-
