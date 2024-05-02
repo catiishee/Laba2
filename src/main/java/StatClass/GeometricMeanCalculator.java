@@ -22,7 +22,7 @@ public class GeometricMeanCalculator {
         for (List<Double> columnData : dataMap.values()) {
             DescriptiveStatistics stats = new DescriptiveStatistics();
             for (double value : columnData) {
-                stats.addValue(Math.abs(value));
+                stats.addValue(value);
             }
             geometricMeans[columnIndex++] = stats.getGeometricMean();
         }

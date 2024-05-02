@@ -21,6 +21,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 /**
  *
@@ -61,7 +63,7 @@ public class GUI extends JFrame {
                 int returnValue = fileChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
-                    int sheetIndex = getSheetIndexFromUserInput();
+                    int sheetIndex = getSheetIndexFromUserInput(selectedFile);
                     if (sheetIndex != -1) {
                         updateTable(selectedFile.getAbsolutePath(), sheetIndex);
                     }
@@ -111,25 +113,53 @@ public class GUI extends JFrame {
         }
     }
 
-    public int getSheetIndexFromUserInput() {
-        JTextField sheetIndexField = new JTextField(5);
-        JPanel panel = new JPanel();
-        panel.add(new JLabel("Индекс листа:"));
-        panel.add(sheetIndexField);
+//    public int getSheetIndexFromUserInput() {
+//        JTextField sheetIndexField = new JTextField(5);
+//        JPanel panel = new JPanel();
+//        panel.add(new JLabel("Индекс листа:"));
+//        panel.add(sheetIndexField);
+//
+//        int result = JOptionPane.showConfirmDialog(null, panel, "Введите номер варианта", JOptionPane.OK_CANCEL_OPTION);
+//        if (result == JOptionPane.OK_OPTION) {
+//            String input = sheetIndexField.getText();
+//            try {
+//                int value = Integer.parseInt(input);
+//                if (value >= 0 && value <= 9) {
+//                    return value;
+//                } else {
+//                    throw new NumberFormatException();
+//                }
+//            } catch (NumberFormatException ex) {
+//                JOptionPane.showMessageDialog(null, "Некорректный ввод. Пожалуйста, введите число от 0 до 9.", "Ошибка", JOptionPane.ERROR_MESSAGE);
+//            }
+//        }
+//        return -1;
+//    }
+    public int getSheetIndexFromUserInput(File file) {
+        try (Workbook workbook = WorkbookFactory.create(file)) {
+            int numSheets = workbook.getNumberOfSheets();
+            JTextField sheetIndexField = new JTextField(5);
+            JPanel panel = new JPanel();
+            panel.add(new JLabel("Индекс листа (от 0 до " + (numSheets - 1) + "):"));
+            panel.add(sheetIndexField);
 
-        int result = JOptionPane.showConfirmDialog(null, panel, "Введите номер варианта", JOptionPane.OK_CANCEL_OPTION);
-        if (result == JOptionPane.OK_OPTION) {
-            String input = sheetIndexField.getText();
-            try {
-                int value = Integer.parseInt(input);
-                if (value >= 0 && value <= 9) {
-                    return value;
-                } else {
-                    throw new NumberFormatException();
+            int result = JOptionPane.showConfirmDialog(null, panel, "Введите номер варианта", JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                String input = sheetIndexField.getText();
+                try {
+                    int value = Integer.parseInt(input);
+                    if (value >= 0 && value < numSheets) {
+                        return value;
+                    } else {
+                        throw new NumberFormatException();
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Некорректный ввод. Пожалуйста, введите число от 0 до " + (numSheets - 1) + ".", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Некорректный ввод. Пожалуйста, введите число от 0 до 9.", "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Ошибка при открытии файла", "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
         return -1;
     }
