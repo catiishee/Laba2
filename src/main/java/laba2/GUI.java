@@ -2,14 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.laba2;
+package laba2;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -57,8 +60,15 @@ public class GUI extends JFrame {
         importButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                File currentDirectory = null;
+                try {
+                    currentDirectory = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParentFile();
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 JFileChooser fileChooser = new JFileChooser();
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("Файлы XLSX", "xlsx");
+                fileChooser.setCurrentDirectory(currentDirectory);
                 fileChooser.setFileFilter(filter);
                 int returnValue = fileChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
@@ -113,28 +123,6 @@ public class GUI extends JFrame {
         }
     }
 
-//    public int getSheetIndexFromUserInput() {
-//        JTextField sheetIndexField = new JTextField(5);
-//        JPanel panel = new JPanel();
-//        panel.add(new JLabel("Индекс листа:"));
-//        panel.add(sheetIndexField);
-//
-//        int result = JOptionPane.showConfirmDialog(null, panel, "Введите номер варианта", JOptionPane.OK_CANCEL_OPTION);
-//        if (result == JOptionPane.OK_OPTION) {
-//            String input = sheetIndexField.getText();
-//            try {
-//                int value = Integer.parseInt(input);
-//                if (value >= 0 && value <= 9) {
-//                    return value;
-//                } else {
-//                    throw new NumberFormatException();
-//                }
-//            } catch (NumberFormatException ex) {
-//                JOptionPane.showMessageDialog(null, "Некорректный ввод. Пожалуйста, введите число от 0 до 9.", "Ошибка", JOptionPane.ERROR_MESSAGE);
-//            }
-//        }
-//        return -1;
-//    }
     public int getSheetIndexFromUserInput(File file) {
         try (Workbook workbook = WorkbookFactory.create(file)) {
             int numSheets = workbook.getNumberOfSheets();
